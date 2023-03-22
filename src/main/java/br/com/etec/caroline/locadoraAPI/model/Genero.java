@@ -16,7 +16,7 @@ public class Genero {
 
     private String descricao;
 
-    @OneToMany (mappedBy = "genero")
+    @OneToMany (mappedBy = "idgenero")
     private List<Filmes> filmesgenero = new ArrayList<>();
 
     public Integer getId() {

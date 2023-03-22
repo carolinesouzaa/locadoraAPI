@@ -15,7 +15,7 @@ public class Ator {
 
     private String nomeator;
 
-    @OneToMany(mappedBy = "ator")
+    @OneToMany(mappedBy = "idator")
     private List<Filmes> filmesator = new ArrayList<>();
 
 
