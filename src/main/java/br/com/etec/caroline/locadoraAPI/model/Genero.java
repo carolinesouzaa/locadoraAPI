@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table (name = "genero")
+@Table (name = "generos")
 
 public class Genero {
 
