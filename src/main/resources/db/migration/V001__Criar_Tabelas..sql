@@ -23,6 +23,7 @@ insert into generos(generofilme) values ('Musical');
 insert into generos(generofilme) values ('Comédia');
 insert into generos(generofilme) values ('Infantil');
 
+
 create table filmes(
     idfilme            int              auto_increment,
     nomefilme          varchar(100)     not null,

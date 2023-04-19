@@ -1,5 +1,7 @@
 package br.com.etec.caroline.locadoraAPI.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,7 @@ public class Ator {
 
     private String nomeator;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "idator")
     private List<Filmes> filmesator = new ArrayList<>();
 
