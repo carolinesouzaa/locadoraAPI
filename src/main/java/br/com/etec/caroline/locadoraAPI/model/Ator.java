@@ -13,7 +13,7 @@ public class Ator {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer idator;
 
     private String nomeator;
 
@@ -23,11 +23,11 @@ public class Ator {
 
 
     public Integer getId() {
-        return id;
+        return idator;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.idator = id;
     }
 
     public String getNomeator() {
@@ -51,12 +51,12 @@ public class Ator {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ator ator = (Ator) o;
-        return id.equals(ator.id);
+        return idator.equals(ator.idator);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(idator);
     }
 
 }

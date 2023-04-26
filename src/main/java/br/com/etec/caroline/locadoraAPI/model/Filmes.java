@@ -10,27 +10,27 @@ public class Filmes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idfilme;
 
     @Override
     public boolean equals(Object o) {
       if (this == o) return true;
       if (o == null || getClass() != o.getClass()) return false;
       Filmes filmes = (Filmes) o;
-      return id.equals(filmes.id);
+      return idfilme.equals(filmes.idfilme);
     }
 
     @Override
     public int hashCode() {
-      return Objects.hash(id);
+      return Objects.hash(idfilme);
     }
 
     public Long getId() {
-      return id;
+      return idfilme;
     }
 
     public void setId(Long id) {
-      this.id = id;
+      this.idfilme = id;
     }
 
     private String nomefilme;

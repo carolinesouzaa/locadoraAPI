@@ -1,7 +1,7 @@
 package br.com.etec.caroline.locadoraAPI.controller;
 
-import br.com.etec.caroline.locadoraAPI.model.Genero;
-import br.com.etec.caroline.locadoraAPI.repository.GeneroRepositorio;
+import br.com.etec.caroline.locadoraAPI.model.Filmes;
+import br.com.etec.caroline.locadoraAPI.repository.FilmesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,14 +10,15 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/generos")
-public class GeneroControle {
+@RequestMapping("/filmes")
+public class FilmesController {
 
     @Autowired
-    private GeneroRepositorio generoRepositorio;
+    private FilmesRepository filmesRepositorio;
 
     @GetMapping("/todos")
-    public List<Genero> list() {
-        return generoRepositorio.findAll();
+    public List<Filmes> list(){
+        return filmesRepositorio.findAll();
     }
+
 }
