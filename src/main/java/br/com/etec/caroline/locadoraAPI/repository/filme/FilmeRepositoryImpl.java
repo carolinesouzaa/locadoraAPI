@@ -1,9 +1,11 @@
 package br.com.etec.caroline.locadoraAPI.repository.filme;
 
 import br.com.etec.caroline.locadoraAPI.model.Filmes;
+import br.com.etec.caroline.locadoraAPI.model.Genero;
 import br.com.etec.caroline.locadoraAPI.repository.filter.FilmeFilter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import javax.persistence.EntityManager;
@@ -32,8 +34,30 @@ public class FilmeRepositoryImpl implements FilmeRepositoryQuery{
 
     TypedQuery<Filmes> query = manager.createQuery(criteria);
 
-    return null;
+    return new PageImpl<>(query.getResultList(), pageable, total(filmeFilter));
   }
+
+  private Long total(FilmeFilter filmeFilter) {
+    CriteriaBuilder builder = manager.getCriteriaBuilder();
+    CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+    Root<Filmes> root = criteria.from(Filmes.class);
+
+    Predicate[] predicates = criarRestricoes(filmeFilter, builder, root);
+    criteria.where(predicates);
+    criteria.orderBy(builder.asc(root.get("nomeFilme")));
+
+    criteria.select(builder.count(root));
+    return manager.createQuery(criteria).getSingleResult();
+  }
+
+    private void adicionarRestricoesDePaginacao(TypedQuery<Filmes> query, Pageable pageable) {
+      int paginaAtual = pageable.getPageNumber();
+      int totalRegistrosPorPagina = pageable.getPageSize();
+      int primeiroRegistroDaPagina = paginaAtual * totalRegistrosPorPagina;
+
+      query.setFirstResult(primeiroRegistroDaPagina);
+      query.setMaxResults(totalRegistrosPorPagina);
+    }
 
   private Predicate[] criarRestricoes(FilmeFilter filmeFilter, CriteriaBuilder builder, Root<Filmes> root) {
     List<Predicate> predicates = new ArrayList<>();
