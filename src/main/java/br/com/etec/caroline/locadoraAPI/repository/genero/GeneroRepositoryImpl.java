@@ -67,6 +67,5 @@ public class GeneroRepositoryImpl implements GeneroRepositoryQuery{
     }
 
     return predicates.toArray((new Predicate[predicates.size()]));
-
   }
 }

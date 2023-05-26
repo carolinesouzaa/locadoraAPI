@@ -63,9 +63,8 @@ public class FilmeRepositoryImpl implements FilmeRepositoryQuery{
     List<Predicate> predicates = new ArrayList<>();
 
       if (!StringUtils.isEmpty(filmeFilter.getNomefilme())) {
-        predicates.add(builder.like(builder.lower(root.get("generoFilme")),
+        predicates.add(builder.like(builder.lower(root.get("nomeFilme")),
                 "%" + filmeFilter.getNomefilme().toLowerCase() + "%" ));
-
     }
 
       return predicates.toArray((new Predicate[predicates.size()]));
