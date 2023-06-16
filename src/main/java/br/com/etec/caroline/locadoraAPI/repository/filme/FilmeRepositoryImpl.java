@@ -26,14 +26,22 @@ public class FilmeRepositoryImpl implements FilmeRepositoryQuery{
   @Override
   public Page<ResumoFilme> filtrar(FilmeFilter filmeFilter, Pageable pageable) {
     CriteriaBuilder builder = manager.getCriteriaBuilder();
-    CriteriaQuery<Filmes> criteria = builder.createQuery(Filmes.class);
+    CriteriaQuery<ResumoFilme> criteria = builder.createQuery(ResumoFilme.class);
     Root<Filmes> root = criteria.from(Filmes.class);
+
+    criteria.select(builder.construct(ResumoFilme.class
+            ,root.get("idfilme")
+            ,root.get("nomefilme")
+            ,root.get("genero").get("generofilme")
+            ,root.get("ator").get("nomeator")
+    ));
 
     Predicate[] predicates = criarRestricoes(filmeFilter, builder, root);
     criteria.where(predicates);
-    criteria.orderBy(builder.asc(root.get("nomeFilme")));
+    criteria.orderBy(builder.asc(root.get("nomefilme")));
 
-    TypedQuery<Filmes> query = manager.createQuery(criteria);
+    TypedQuery<ResumoFilme> query = manager.createQuery(criteria);
+    adicionarRestricoesDePaginacao(query, pageable);
 
     return new PageImpl<>(query.getResultList(), pageable, total(filmeFilter));
   }
@@ -45,13 +53,13 @@ public class FilmeRepositoryImpl implements FilmeRepositoryQuery{
 
     Predicate[] predicates = criarRestricoes(filmeFilter, builder, root);
     criteria.where(predicates);
-    criteria.orderBy(builder.asc(root.get("nomeFilme")));
+    criteria.orderBy(builder.asc(root.get("nomefilme")));
 
     criteria.select(builder.count(root));
     return manager.createQuery(criteria).getSingleResult();
   }
 
-    private void adicionarRestricoesDePaginacao(TypedQuery<Filmes> query, Pageable pageable) {
+    private void adicionarRestricoesDePaginacao(TypedQuery<?> query, Pageable pageable) {
       int paginaAtual = pageable.getPageNumber();
       int totalRegistrosPorPagina = pageable.getPageSize();
       int primeiroRegistroDaPagina = paginaAtual * totalRegistrosPorPagina;
@@ -64,8 +72,18 @@ public class FilmeRepositoryImpl implements FilmeRepositoryQuery{
     List<Predicate> predicates = new ArrayList<>();
 
       if (!StringUtils.isEmpty(filmeFilter.getNomefilme())) {
-        predicates.add(builder.like(builder.lower(root.get("nomeFilme")),
+        predicates.add(builder.like(builder.lower(root.get("nomefilme")),
                 "%" + filmeFilter.getNomefilme().toLowerCase() + "%" ));
+    }
+
+    if (!StringUtils.isEmpty(filmeFilter.getGenerofilme())) {
+      predicates.add(builder.like(builder.lower(root.get("genero").get("generofilme")),
+              "%" + filmeFilter.getNomefilme().toLowerCase() + "%" ));
+    }
+
+    if (!StringUtils.isEmpty(filmeFilter.getNomeator())) {
+      predicates.add(builder.like(builder.lower(root.get("ator").get("nomeator")),
+              "%" + filmeFilter.getNomefilme().toLowerCase() + "%" ));
     }
 
       return predicates.toArray((new Predicate[predicates.size()]));

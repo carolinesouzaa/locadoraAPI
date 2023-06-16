@@ -6,15 +6,19 @@ public class ResumoFilme {
 
     private String nomefilme;
 
-    private String descricao; // genero
+    private String generofilme; // genero
 
     private String nomeator;
 
     public ResumoFilme(Long idfilme, String nomefilme, String descricao, String nomeator) {
         this.idfilme = idfilme;
         this.nomefilme = nomefilme;
-        this.descricao = descricao;
+        this.generofilme = descricao;
         this.nomeator = nomeator;
+    }
+
+    public Long getIdfilme(){
+        return idfilme;
     }
 }
 
